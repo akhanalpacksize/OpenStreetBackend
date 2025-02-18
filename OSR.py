@@ -26,8 +26,6 @@ def fetch_form_source():
 
     if filters:
         base_query += f" WHERE {' AND '.join(filters)} "
-        base_query += " LIMIT 50;"
-
     # if filters:
     #     base_query += f" WHERE {' AND '.join(filters)}"
     #
