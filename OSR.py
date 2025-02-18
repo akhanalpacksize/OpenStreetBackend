@@ -26,6 +26,7 @@ def fetch_form_source():
 
     if filters:
         base_query += f" WHERE {' AND '.join(filters)} "
+        base_query += " LIMIT 50;"
 
     # if filters:
     #     base_query += f" WHERE {' AND '.join(filters)}"
@@ -92,6 +93,7 @@ def fetch_from_ors():
 
     # Add a new column for road distance data
     sf_account_data['road_distance_raw'] = None
+    sf_account_data['filename'] = None
     # Process each row and fetch road distance
     for index, row in sf_account_data.iterrows():
         try:
@@ -101,6 +103,7 @@ def fetch_from_ors():
             end_lat = row['ShippingLatitude']
             end_lon = row['ShippingLongitude']
             blob_name = f"{start_lat}_{start_lon}_{end_lat}_{end_lon}.json"
+            sf_account_data.at[index, 'filename'] = blob_name
             if not check_blob_exists(blob_name):
                 # Skip rows with missing coordinates
                 if None in (start_lat, start_lon, end_lat, end_lon):
@@ -113,7 +116,6 @@ def fetch_from_ors():
 
                 # Make the API request using make_request
                 data, headers = make_request(url, method='GET')
-                print(data)
                 if data:
                     # Save the raw JSON response
                     sf_account_data.at[index, 'road_distance_raw'] = data

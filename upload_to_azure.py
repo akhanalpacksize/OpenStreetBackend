@@ -57,8 +57,9 @@ def upload_file_in_chunks(file_path, chunk_size=4 * 1024 * 1024):
 
             # Commit the block list to finalize the upload
             blob_client.commit_block_list(block_list)
-
         print(f"File '{blob_name}' uploaded successfully to Azure Blob Storage.")
+        os.remove(file_path)
+        print(f"file removed: {file_path}")
 
     except Exception as e:
         print(f"An error occurred while uploading the file: {e}")
@@ -101,5 +102,3 @@ def check_blob_exists(blob_name):
     print(f"blob exits ? {blob_name}: {if_exists}")
     # Check if the blob exists
     return if_exists
-
-
