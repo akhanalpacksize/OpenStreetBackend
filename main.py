@@ -1,6 +1,7 @@
 from OSR import fetch_from_ors
+from commons import new_chunk
 from json_chunk import process_json_data
-from upload_to_azure import upload_file_in_chunks
+from upload_to_azure import upload_file_in_chunks, upload_multiple_files
 
 if __name__ == '__main__':
     try:
@@ -19,9 +20,11 @@ if __name__ == '__main__':
 
     try:
         print("Uploading files to Azure...")
-        upload_file_in_chunks()
+
+        # Replace with the path to your directory
+        directory_path = new_chunk  # Replace with the path to your directory containing files
+        upload_multiple_files(directory_path)
     except Exception as e:
         print(f"Error during upload_file_in_chunks: {e}")
-        exit(1)
 
     print("Pipeline completed successfully!")

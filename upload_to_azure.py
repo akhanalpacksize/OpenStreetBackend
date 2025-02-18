@@ -91,6 +91,15 @@ def upload_multiple_files(directory_path, chunk_size=4 * 1024 * 1024):
         print(f"An error occurred while processing the directory: {e}")
 
 
-# Example usage
-directory_path = new_chunk  # Replace with the path to your directory containing files
-upload_multiple_files(directory_path)
+# check if blob exists or not
+def check_blob_exists(blob_name):
+    # Construct the blob-specific SAS URL
+    blob_sas_url = f"{CONTAINER_SAS_URL.split('?')[0]}/{blob_name}?{CONTAINER_SAS_URL.split('?')[1]}"
+    # Initialize the BlobClient using the blob-specific SAS URL
+    blob_client = BlobClient.from_blob_url(blob_sas_url)
+    if_exists = blob_client.exists()
+    print(f"blob exits ? {blob_name}: {if_exists}")
+    # Check if the blob exists
+    return if_exists
+
+
